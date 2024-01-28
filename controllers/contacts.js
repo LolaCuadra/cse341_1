@@ -31,7 +31,7 @@ const createContact = async (req, res) => {
     favoriteColor: req.body.favoriteColor,
     birthday: req.body.birthday
   };
-  const response = await mongodb.getDb().db("User").collection('Contacts').insertOne(contact);
+  const response = await mongodb.getDb().db("cse341").collection('contacts').insertOne(contact);
   if (response.acknowledged) {
     res.status(201).json(response);
   } else {
@@ -41,7 +41,6 @@ const createContact = async (req, res) => {
 
 const updateContact = async (req, res) => {
   const userId = new ObjectId(req.params.id);
-  // be aware of updateOne if you only want to update specific fields
   const contact = {
     firstName: req.body.firstName,
     lastName: req.body.lastName,
@@ -51,8 +50,8 @@ const updateContact = async (req, res) => {
   };
   const response = await mongodb
     .getDb()
-    .db("User")
-    .collection('Contacts')
+    .db("cse341")
+    .collection('contacts')
     .replaceOne({ _id: userId }, contact);
   console.log(response);
   if (response.modifiedCount > 0) {
@@ -64,7 +63,7 @@ const updateContact = async (req, res) => {
 
 const deleteContact = async (req, res) => {
   const userId = new ObjectId(req.params.id);
-  const response = await mongodb.getDb().db("User").collection('Contacts').remove({ _id: userId }, true);
+  const response = await mongodb.getDb().db("cse341").collection('contacts').remove({ _id: userId }, true);
   console.log(response);
   if (response.deletedCount > 0) {
     res.status(204).send();
